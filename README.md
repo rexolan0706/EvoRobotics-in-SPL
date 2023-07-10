@@ -1,9 +1,9 @@
 # Evolutionary Robotics in Software Product Lines
 
-##Installation
+## Installation
 Clone this repository and install the requirements.txt
-##Usage
-###Trianing
+## Usage
+### Trianing
 To train the behaviors change the TRAIN_STEPS Parameter in the Config.ini file. 
 Also set the corresponding arenas in the TRACK Parameter under the point "Training". The arenas can be found in the track folder.
 |Behavior|Training step|Arena|
@@ -18,7 +18,7 @@ If a previous model should be trained then set INIT_FROM_MODEL to True, while al
 
 After setting all parameters just execute train.py
 
-###Testing
+### Testing
 For testing the model path BRAIN_TO_LOAD as well as the track TRACK under the DEMO point have to be set.
 Then it can be tested by executing demo.py.
 
