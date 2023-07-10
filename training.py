@@ -19,7 +19,7 @@ if __name__ == "__main__":
 
     start_point, direction = track.get_start_info()
 
-    #window = pygame.display.set_mode(utils.SIZE)
+    window = pygame.display.set_mode(utils.SIZE)
 
     # Init cars
     cars = []
@@ -60,8 +60,8 @@ if __name__ == "__main__":
 
     while not finished:
         #print(best_fitness)
-        #pygame.display.set_caption(f"Generation {generation} - Fitness: {best_fitness}")
-        #window.fill(utils.COL_BLACK)
+        pygame.display.set_caption(f"Generation {generation} - Fitness: {best_fitness}")
+        window.fill(utils.COL_BLACK)
         #print(iterations)
         if generation >40:
             finished = True
@@ -122,7 +122,7 @@ if __name__ == "__main__":
                         cars[curr_best_fitness_i].model.save_to_file(utils.AUTO_SAVE_FILENAME)
 
         # add background to window
-        #window.blit(track.image, (0,0))
+        window.blit(track.image, (0,0))
 
         # Update all cars
         crashed = 0
@@ -158,17 +158,17 @@ if __name__ == "__main__":
 
             c.perform_autonomous_action()
             c.update()
-            #if not i == curr_best_fitness_i:
-                #c.draw(window)
-        #if not curr_best_fitness_i == None:
-            #cars[curr_best_fitness_i].draw(window, True) # draw best car on top and with lines
+            if not i == curr_best_fitness_i:
+                c.draw(window)
+        if not curr_best_fitness_i == None:
+            cars[curr_best_fitness_i].draw(window, True) # draw best car on top and with lines
 
             # Get inputs for this car as well
             # then turn on the wall following feature
             inp = cars[curr_best_fitness_i].compute_input_vector()
             inp_text = "Inputs: " + "{:.3f} " * len(utils.CAR_INPUT_ANGLES.split(","))
             text1 = font.render(inp_text.format(*inp[0]), True, utils.COL_WHITE)
-            #window.blit(text1, (500,15))
+            window.blit(text1, (500,15))
             outputsList = inp.tolist()
             leftDis = outputsList[0][0]
             leftDis1 = outputsList[0][1]
@@ -181,12 +181,12 @@ if __name__ == "__main__":
                 iterations = 0
                 goal = False
             text2 = font.render("Velocity: {:.3f}, Angle Velocity: {:.3f}".format(cars[curr_best_fitness_i].velocity, cars[curr_best_fitness_i].angle_velocity), True, utils.COL_WHITE)
-            #window.blit(text2, (500, 30))
+            window.blit(text2, (500, 30))
 
         if not utils.TRAIN_STEPS ==2:
             if crashed >= len(cars)/2:
                 iterations_after_crash += 1
-        #print(iterations_after_crash,iterations)
+        print(iterations_after_crash,iterations)
         iterations += 1
 
         for c in cars:
@@ -196,7 +196,7 @@ if __name__ == "__main__":
         # Force restart after MAX_ITERATIONS iterations
         if iterations >= utils.MAX_ITERATIONS or iterations_after_crash >= utils.MAX_ITERATIONS_AFTER_CRASH:
             restart = True
-        #pygame.display.flip()
+        pygame.display.flip()
 
     np.save("./metrics/config_142.npy",np.array(fitness_all))
     np.save("./models/config_142_head.npy",cars[best_fitness_i].model.get_weights()[0])
